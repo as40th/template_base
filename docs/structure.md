@@ -134,15 +134,15 @@ ai-platform/
 │   │       └── tracing.py                       # trace_id propagation
 │
 │   ├── integrations/                            # реализации внешних API
-│   ├── http/
-│   │   ├── user_service_http_adapter.py
-│   │   └── billing_http_adapter.py
-│   │
-│   ├── grpc/
-│   │   └── user_service_grpc_adapter.py
-│   │
-│   └── mocks/
-│       └── user_service_mock.py                # для тестов
+│   │   ├── http/
+│   │   │   ├── user_service_http_adapter.py
+│   │   │   └── billing_http_adapter.py
+│   │   │
+│   │   ├── grpc/
+│   │   │   └── user_service_grpc_adapter.py
+│   │   │
+│   │   └── mocks/
+│   │       └── user_service_mock.py                # для тестов
 │
 │   ├── llm/
 │   │   ├── openai_adapter.py                    # OpenAI реализация
