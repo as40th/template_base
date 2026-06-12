@@ -70,6 +70,29 @@ Workflows
 
 # Пререквизиты
 
+- Установи менджер uv
+  Windows: 
+  ```
+  powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+  ```
+
+  Linux:    
+
+- Установи Python:
+  ```
+  uv python install
+  ```
+
+- Создай venv
+  ```
+  uv venv
+  ```
+
+- Синхронизируй зависимости
+  ```
+  uv sync
+  ```
+
 - Установи node.js для использования менеджера пакетов npm
   - Windows / Linux: скачай оф установщик с `https://nodejs.org/en/download`
   - Получи API-key для Context7: `https://context7.com/dashboard`
@@ -84,12 +107,4 @@ Workflows
   ```
   copy .devin/mcp_config.json %USERPROFILE%\.codeium\windsurf\mcp_config.json
   ```
-
-- Установи менджер uv
-  Windows: 
-  ```
-  powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-  ```
-
-  Linux:    
 
