@@ -40,7 +40,9 @@ description: Initial prompt for generating service architecture and business log
 
 # Processing Flow
 
-## Step 1 — получение текста
+## Step 1 — Получение запроса
+
+Сервис получает запрос на endpoint /product-definition/api/v1/execute
 
 Если `is_initial = true`:
 
