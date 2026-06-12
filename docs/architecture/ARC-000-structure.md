@@ -230,6 +230,7 @@
 ├── .env
 ├── .gitignore
 ├── pyproject.toml
+├── uv.lock
 ├── docs/
 │   ├── adr/
 │   ├── architecture/
