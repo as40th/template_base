@@ -1,9 +1,3 @@
-# ADR-002 — Hexagonal Architecture (Port-Adapter)
-
-# Статус
-
-Accepted
-
 # Контекст
 
 Система использует множество внешних компонентов:
@@ -53,15 +47,7 @@ Internal DTO
 
 ## Пример
 
-QueryService
-↓
-LLMPort
-↓
-LLM Adapter Routing
-↓
-OpenAIAdapter
-↓
-OpenAI API
+[ARC-003-port-adapter-flow.md](../architecture/ARC-003-port-adapter-flow.md)
 
 # Последствия
 
