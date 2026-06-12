@@ -1,0 +1,186 @@
+---
+trigger: model_decision
+description: Используй только для проектов  с использованием Langchain
+---
+
+# 1. Назначение LangChain
+
+LangChain используется для:
+
+- композиции LLM-пайплайнов
+- chaining вызовов LLM / tools / retrievers
+- быстрого прототипирования AI flows
+- интеграции с внешними LLM и tool экосистемами
+
+LangChain НЕ используется для:
+- построения core бизнес-логики
+- управления системной архитектурой
+- реализации инфраструктурных слоёв
+
+---
+
+# 2. Chain Design Principle
+
+Chain должен быть:
+
+- линейным или явно структурированным
+- читаемым
+- разбитым на логические шаги
+
+Запрещено:
+
+- скрытая логика внутри промптов
+- неявные side effects
+- чрезмерно длинные монолитные chains
+
+---
+
+# 3. Prompt Isolation
+
+Все prompts должны быть:
+
+- явно определены
+- версионированы (если возможно)
+- отделены от бизнес-логики
+
+Запрещено:
+
+- inline сложные prompts внутри chain логики
+- динамическая генерация prompt без контроля
+
+---
+
+# 4. LCEL / Runnable Pattern
+
+При использовании LCEL:
+
+- каждый Runnable должен быть атомарным
+- composition должен быть декларативным
+- side effects запрещены внутри Runnable
+
+Принцип:
+
+> Runnable = pure transformation step
+
+---
+
+# 5. Memory Usage
+
+Memory допускается только если:
+
+- есть явная необходимость statefulness
+- поведение предсказуемо
+
+Запрещено:
+
+- неявная память между запросами
+- использование memory как замены storage слоя
+
+---
+
+# 6. Tool Integration
+
+Tools в LangChain:
+
+- должны быть явно зарегистрированы
+- вызываться только через tool interface
+- не должны содержать бизнес-логику
+
+Запрещено:
+
+- скрытые tool calls внутри LLM prompts
+- прямые внешние вызовы вне tool abstraction
+
+---
+
+# 7. Retrieval (RAG Integration)
+
+Retrievers:
+
+- должны быть изолированы от chain логики
+- возвращать структурированный результат
+- не модифицировать input query без явного шага
+
+Запрещено:
+
+- implicit query rewriting внутри retriever без контроля
+- смешивание retrieval и generation в одном шаге
+
+---
+
+# 8. Error Handling
+
+Каждый chain должен:
+
+- обрабатывать failure states явно
+- поддерживать fallback (если предусмотрено)
+- не скрывать ошибки внутри LLM output
+
+Запрещено:
+
+- silent failures
+- автоматическое игнорирование exceptions
+
+---
+
+# 9. Observability
+
+Каждый execution должен логировать:
+
+- chain steps
+- latency per step
+- input/output transformations
+- tool calls
+- retrieval results (summary)
+
+---
+
+# 10. Determinism & Reproducibility
+
+LangChain flows должны:
+
+- быть максимально детерминированными
+- не зависеть от скрытого состояния
+- использовать фиксированные prompts (если возможно)
+
+Запрещено:
+
+- uncontrolled randomness без seed
+- non-reproducible chains без объяснения
+
+---
+
+# 11. Performance Rules
+
+Запрещено:
+
+- избыточные LLM calls
+- дублирующие retrieval шаги
+- неограниченные loops в chains
+
+Рекомендуется:
+
+- caching (prompt / retrieval / response)
+- batching где возможно
+- минимизация chain length
+
+---
+
+# 12. Debugging Principle
+
+Любой chain должен быть:
+
+- трассируемым по шагам
+- дебажимым без изменения кода
+- понятным по intermediate outputs
+
+---
+
+# 13. Definition of Done
+
+- chain разбит на понятные шаги
+- prompts изолированы
+- tools явно зарегистрированы
+- retrieval отделён от generation
+- есть observability
+- отсутствуют скрытые side effects

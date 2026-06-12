@@ -1,0 +1,219 @@
+---
+description: разработка или рефакторинг компонентов с использованием MCP-серверов
+alwaysApply: false
+---
+
+# 1. Назначение MCP
+
+MCP используется как:
+
+- транспорт для подключения внешних tool-серверов
+- механизм получения/выполнения удалённых инструментов
+- слой интеграции с внешними системами через стандартный протокол
+
+MCP НЕ является:
+
+- частью бизнес-логики
+- domain model
+- источником истины
+- заменой Tool abstraction layer
+
+---
+
+# 2. MCP Isolation Rule
+
+Любой MCP вызов должен быть изолирован через:
+
+> Tool Interface → MCP Adapter → MCP Server
+
+Запрещено:
+
+- прямой вызов MCP из services
+- использование MCP SDK в domain layer
+- передача MCP response напрямую в LLM или business logic
+
+---
+
+# 3. MCP Adapter Boundary
+
+MCP Adapter обязан:
+
+- преобразовывать MCP schema → internal DTO
+- скрывать внешний контракт MCP от системы
+- нормализовать данные в доменную модель
+
+Запрещено:
+
+- протаскивание MCP schema внутрь services
+- использование raw MCP response без mapping
+
+---
+
+# 4. Schema Normalization Rule
+
+Все MCP responses должны быть:
+
+- преобразованы в internal DTO
+- валидированы по внутренней схеме
+- очищены от лишних/опасных полей
+
+Запрещено:
+
+- доверять MCP schema как стабильной
+- использовать динамические поля без валидации
+
+---
+
+# 5. MCP Contract Stability Assumption
+
+MCP server считается:
+
+- внешней ненадёжной системой
+- потенциально меняющимся контрактом
+- источником schema drift
+
+Следовательно:
+
+- всегда нужен defensive mapping
+- versioning обязателен
+
+---
+
+# 6. No Direct Exposure Rule
+
+Запрещено:
+
+- передавать MCP response в LLM без обработки
+- использовать MCP output как final response
+- логировать raw MCP payload без sanitization
+
+---
+
+# 7. MCP Tool Registration Rule
+
+Каждый MCP tool должен быть:
+
+- явно зарегистрирован в Tool Registry
+- иметь version
+- иметь input/output schema
+
+---
+
+# 8. Execution Safety Rules
+
+Каждый MCP вызов обязан иметь:
+
+- timeout
+- retry policy (bounded)
+- circuit breaker (если применимо)
+
+Запрещено:
+
+- бесконечные retries
+- синхронные блокирующие вызовы без timeout
+- cascade calls без ограничений
+
+---
+
+# 9. Security Rules
+
+Запрещено:
+
+- передавать secrets через MCP без шифрования
+- выполнять опасные операции без explicit approval layer
+- доверять MCP серверу как trusted source
+
+Обязательно:
+
+- allowlist MCP servers
+- least privilege access
+- audit logging всех вызовов
+
+---
+
+# 10. Observability Requirement
+
+Каждый MCP вызов должен логироваться:
+
+- tool name
+- MCP server endpoint
+- request (sanitized)
+- response (sanitized)
+- latency
+- status
+- retry count
+
+---
+
+# 11. Error Handling Model
+
+Ошибки MCP классифицируются:
+
+- transient (retryable)
+- permanent (non-retryable)
+- protocol error
+- timeout
+
+Обязательное поведение:
+
+- retry только bounded
+- fallback strategy должен быть определён
+- ошибки не должны скрываться
+
+---
+
+# 12. MCP vs Internal Tools Boundary
+
+MCP tools:
+
+- external, unstable, network-based
+
+Internal tools:
+
+- deterministic, controlled, in-process or trusted infra
+
+Правило:
+
+> MCP всегда ниже по доверию, чем internal tools
+
+---
+
+# 13. Data Flow Rule
+
+Типичный поток:
+
+MCP Server
+→ MCP Adapter
+→ Internal DTO
+→ Tool Interface
+→ Policy Layer / Agent
+→ LLM (optional)
+
+Запрещено:
+
+- MCP → LLM напрямую
+- MCP → Service bypassing tool layer
+
+---
+
+# 14. Determinism Constraint
+
+MCP считается:
+
+- inherently non-deterministic
+
+Поэтому:
+
+- результаты должны кешироваться (если возможно)
+- повторные вызовы должны быть контролируемыми
+- важно сохранять traceability
+
+---
+
+# 15. Definition of Done
+- есть MCP Adapter
+- есть internal DTO mapping
+- есть Tool abstraction layer
+- есть timeout/retry/circuit breaker
+- есть observability
+- отсутствует прямое использование MCP SDK вне adapter

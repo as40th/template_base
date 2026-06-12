@@ -1,0 +1,148 @@
+---
+trigger: model_decision
+description: разработка с использованием AI инструментов
+---
+
+# 1. Управление LLM-вызовами
+
+LLM используется только когда:
+
+- нельзя решить детерминированно
+- требуется генерация или reasoning
+- требуется интерпретация неструктурированных данных
+
+Запрещено:
+- использовать LLM для простых вычислений
+- использовать LLM для фильтрации, если это можно сделать кодом
+- дублировать LLM-вызовы без необходимости
+
+---
+
+# 2. Structured Output
+
+Любой структурированный ответ от LLM должен:
+
+- иметь строгую схему
+- быть валидируемым
+- отклоняться при невалидности
+
+При невалидном output:
+
+- retry (bounded)
+- fallback (если предусмотрен)
+- иначе → reject
+
+---
+
+# 3. Tool Usage Policy
+
+Tools:
+- должны иметь input/output контракт
+
+Запрещено:
+- неявные tool calls внутри prompt
+
+---
+
+# 4. RAG Usage Policy
+
+RAG используется только если:
+
+- требуется внешнее знание
+- данные не находятся в контексте запроса
+- есть явная необходимость retrieval
+
+Запрещено:
+
+- использовать “сырые” документы без фильтрации
+- прокидывать весь retrieval context без ограничения
+
+---
+
+# 5. Memory & State
+
+Запрещено:
+
+- неявное хранение состояния между запросами
+- использование скрытого контекста без явного execution_context
+
+Разрешено:
+
+- явный state object
+- traceable execution context
+
+---
+
+# 6. Observability Requirements
+
+Любой AI-flow должен логировать:
+
+- decision path
+- LLM calls
+- tool calls
+- RAG retrieval
+- latency
+- tokens / cost
+
+Отсутствие observability = нарушение контракта.
+
+---
+
+# 7. Determinism Bias
+
+Приоритет решений:
+
+1. deterministic code
+2. tools
+3. RAG
+4. LLM
+
+LLM — последний fallback слой.
+
+---
+
+# 8. Safety & Validation
+
+Любой AI-output должен проходить:
+
+- schema validation
+- policy validation
+- safety checks (prompt injection awareness)
+
+Подозрительные входы:
+- считаются нормой, а не исключением
+
+---
+
+# 9. Failure Handling
+
+Любой внешний вызов (LLM / tools / RAG):
+
+- timeout обязателен
+- retry bounded + backoff + jitter
+- классификация ошибок:
+  - retryable
+  - non-retryable
+  - fatal
+
+---
+
+# 10. Запрещённые паттерны
+
+❌ Скрытая логика принятия решений внутри prompt  
+❌ Необоснованные цепочки LLM вызовов  
+❌ Прямые вызовы инфраструктуры из service layer  
+❌ Отсутствие validation после LLM/tool/RAG  
+❌ Потеря traceability
+
+---
+
+# 11. Definition of Done (AI Flow)
+
+AI-flow считается корректным, если:
+
+- есть явный decision path
+- есть structured output (если применимо)
+- есть observability
+- есть failure handling
+- есть validation слоя результатов
