@@ -7,13 +7,11 @@
     // Документация по библиотекам
     "context7-stdin": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@context7/mcp-server"
-      ],
+      "args": ["-y", "@upstash/context7-mcp"],
       "env": {
         "CONTEXT7_API_KEY": "${env:CONTEXT7_API_KEY}"
-      }
+      },
+      "registry": "devin/context7"
     }
   }
 }
