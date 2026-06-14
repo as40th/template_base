@@ -2,11 +2,19 @@
   "mcpServers": {
     "context7-stdin": {
       "command": "npx",
-      "args": ["-y", "@upstash/context7-mcp"],
+      "args": [
+        "-y",
+        "@upstash/context7-mcp"
+      ],
       "env": {
         "CONTEXT7_API_KEY": "${env:CONTEXT7_API_KEY}"
-      },
-      "registry": "devin/context7"
+      }
+    },
+    "context7-http": {
+      "serverUrl": "https://mcp.context7.com/mcp",
+      "headers": {
+        "API_KEY": "${env:CONTEXT7_API_KEY}"
+      }
     }
   }
 }

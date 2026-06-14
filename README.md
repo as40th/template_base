@@ -70,6 +70,8 @@ Workflows
 
 # Пререквизиты
 
+## uv
+
 - Установи менджер uv
   Windows: 
   ```
@@ -93,18 +95,19 @@ Workflows
   uv sync
   ```
 
+# Node.js
+
 - Установи node.js для использования менеджера пакетов npm
   - Windows / Linux: скачай оф установщик с `https://nodejs.org/en/download`
-  - Получи API-key для Context7: `https://context7.com/dashboard`
-  - Добавь системную переменную `CONTEXT7_API_KEY` и запиши в нее полученный API-key
-  - Установи MCP-сервер для Context7 
-    ```
-    npx ctx7 setup
-    ```
-  - Обрати внимание! Установщик запросит указать инструмент, в котором планируется использовать MCP. Автоматически усьтановщик создаст SKILL, RULE и mcp.json в каталоге users/.../
 
-- Для Devin/Windsurf project-level пока не поддерживается, поэтому надо к себе в папку копирнуть: 
-  ```
-  copy .devin/mcp_config.json %USERPROFILE%\.codeium\windsurf\mcp_config.json
-  ```
+## MCP-сервер Context7
+- Получи API-key для Context7: `https://context7.com/dashboard`
+- Добавь системную переменную `CONTEXT7_API_KEY` и запиши в нее полученный API-key
+- Готовые конфиги для MCP по stdin и http/SSE: `.cursor/mcp.json`, `.devin/mcp_config.json`. Для каждого AI-кодера - своя конфигурация, см. официальную документацию по настройке MCP для каждого агента.
+
+- ВАЖНО! Разные агенты по разноому работают с MCP-серверами:
+  - Для Devin/Windsurf project-level пока не поддерживается, поэтому конфгигу размещаем в домашней директории пользователя (для Windows):
+    `%USER%\.codeium\windsurf\mcp_config.json` или в `"%USER%\AppData\Roaming\devin\config.json"`
+  - Devin/Windsurf на момент написания этого README не работал по stdin - только по http/SSE
+- ВАЖНО! После настройки конфигов MCP-сервера нужно активировать их в интерфейсе IDE (например, Cursor Settings -> Tools & MCPs)
 
