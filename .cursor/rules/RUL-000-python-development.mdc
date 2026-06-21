@@ -76,6 +76,13 @@ asyncio.create_subprocess_exec
 
 * никакого blocking I/O в async flow
 
+# Логирование
+
+Сконфигурируй логирование в приложении с использованием формата:
+```
+%(asctime)s - %(name)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s
+```
+
 ---
 
 # Обработка ошибок
