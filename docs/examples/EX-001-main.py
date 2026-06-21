@@ -13,17 +13,15 @@ apps/ — Точки входа
 import uvicorn
 from fastapi import FastAPI
 from src.presentation.api.routes import router
-from src.presentation.dependencies import setup_dependencies
 from src.config import settings
+
+settings.configure_logging()
 
 def create_app() -> FastAPI:
     app = FastAPI(
         title=settings.APP_NAME,
         version=settings.APP_VERSION,
     )
-    
-    # Регистрация зависимостей
-    setup_dependencies(app)
     
     # Подключение роутов
     app.include_router(router)
@@ -35,7 +33,7 @@ app = create_app()
 if __name__ == "__main__":
     uvicorn.run(
         "main:app",
-        host=settings.HOST,
-        port=settings.PORT,
+        host=settings.API_HOST,
+        port=settings.API_PORT,
         reload=True,
     )
