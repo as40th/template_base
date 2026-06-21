@@ -8,7 +8,7 @@ description: Используй только для Python проектов
 Обязательно:
 
 * Service → Port
-* Port → Routing Adapter
+* Port → Routing Adapter (опционально, только при необходимости динамической маршрутизации по явному указанию разработчика)
 * Routing Adapter → Concrete Adapter
 
 Запрещено:

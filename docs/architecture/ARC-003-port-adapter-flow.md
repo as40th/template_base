@@ -50,7 +50,7 @@ class OracleUserRepositoryAdapter(
         ...
 ```
 
-# Routing адаптер
+# Routing адаптер (опционально, для динамического выбора конкретного адаптера)
 
 ```python
 class RoutingUserRepositoryAdapter(

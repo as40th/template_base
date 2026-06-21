@@ -126,7 +126,7 @@ class RAGPort(Protocol):
 
 ---
 
-# 6. RAG Routing Adapter
+# 6. RAG Routing Adapter (опционально, для динамического выбора конкретного адаптера)
 Выбирает retrieval backend (источник знаний) на основе domain. Например, для medical domain используется PgVector, для other domains — поиск в интернете и т.д.
 
 ```python

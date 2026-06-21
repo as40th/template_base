@@ -347,7 +347,7 @@ response = await llm_port.generate(prompt)
 
 ---
 
-# 13. LLM Routing Adapter
+# 13. LLM Routing Adapter (опционально, для динамического выбора конкретного адаптера)
 
 Выбирает:
 
