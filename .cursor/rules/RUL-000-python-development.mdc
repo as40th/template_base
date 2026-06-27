@@ -28,7 +28,7 @@ uv add <package>
 ## Обязательно
 
 * строгая типизация во всех слоях
-* использование Protocol для контрактов
+* использование ABC для контрактов
 * использование TypedDict / dataclass / Pydantic при необходимости
 
 ---
@@ -46,7 +46,7 @@ Any
 Использовать:
 
 * object
-* Protocol
+* ABC
 * TypeVar
 * Generic
 
