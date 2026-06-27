@@ -3,6 +3,8 @@
   - Devin (ex-Windsurf)
   - Gigacode
 
+---
+
 # ДЕКЛАРАТИВНЫЕ КОНФИГУРАЦИИ
 
 ADR (Почему архитектура устроена именно так)
@@ -13,21 +15,31 @@ Hooks
 Subagents 
 Workflows
 
+---
+
 # RULES:
 
+---
+
 # SKILLS:
+
+---
 
 # Subagents (кроме Windsurf)
 
   - Базовые (бэст-практис):
     - code-reviewer
-    - test-generator
-    - documentation-generator
+    - test-generator  (ВАЖНО! Тесты генерируем ручным запуском субагента ТОЛЬКО после проверки кода и внесения правок. AI-ассистент не должен генерировать тесты автоматически после каждой таски)
+    - documentation-generator (ВАЖНО! Документацию генерируем ручным запуском субагента ТОЛЬКО после проверки кода и внесения правок. AI-ассистент не должен генерировать/править документацию автоматически после каждой таски)
     - security-scanner
+
+---
 
 # Workflows (в Devin (ex-Windsurf))
   В Devin (ex-Windsurf) нет субагентов. Но есть Workflows и Worktrees
 
+
+---
 
 # ПРОГРАММНЫЕ КОНФИГУРАЦИИ
 
@@ -44,10 +56,16 @@ Workflows
 
 ## Self-healing механизмы
 
+
+---
+
 # Расширения:
 
 - Pylance (hits, navigaton, type-checking)
 - Ruff (linter + formatter (codestyle))
+
+
+---
 
 # Пререквизиты
 
@@ -97,35 +115,36 @@ Workflows
   ```
 
 
-# Node.js
+## Node.js
 
 - Установи node.js для использования менеджера пакетов npm
 - Windows / Linux: скачай оф установщик с `https://nodejs.org/en/download`
 
-# MCP-сервер Context7
+## MCP-сервер Context7
 - Это важный MCP-сервер из минимального набора MCP для AI-ассистента.
 - Получи API-key для Context7: `https://context7.com/dashboard`
 - Добавь системную переменную `CONTEXT7_API_KEY` и запиши в нее полученный API-key
 - Готовые конфиги для MCP по stdin и http/SSE: `.cursor/mcp.json`, `.devin/mcp_config.json`. Для каждого AI-кодера - своя конфигурация, см. официальную документацию по настройке MCP для каждого агента.
 
-## Cursor
+### Cursor
 - Поддерживается project-level
   Размещение в `.cursor/mcp.json`
 - Поддерживается stdin и http/SSE режимы
 - Активация через Cursor Settings - Tools & MCP's 
 
-## Devin (ex-Windsurf)
+### Devin (ex-Windsurf)
 - project-level не поддерживается, поэтому конфгигу размещаем в домашней директории пользователя (для Windows):
   `%USER%\.codeium\windsurf\mcp_config.json` или в `"%USER%\AppData\Roaming\devin\config.json"`
 - На момент написания этого README не поддерживается режим stdin - только http/SSE
 - Активация через Devin Settings - Devin Local - MCP servers
 
-## Gigacode
+### Gigacode
 - Gigacode не поддерживает project-level конфигурацию, поэтому конфига размещается в домашней директории пользователя (для Windows):
   `"%USER%AppData\Roaming\Code\User\globalStorage\gigacode.gigacode-vscode\settings\mcp_settings.json"`
 - Режим stdin поддерживается
 - Активация через Gigacode - Settings - Integrations & MCP
 
+---
 
 # Локальный запуск
 
@@ -134,9 +153,17 @@ API:
 uv run uvicorn src.apps.sync.main:app --reload
 ```
 
+---
+
 # Пример запроса
 ```
 curl -X POST http://localhost:8000/product-definition/api/v1/execute \
   -H "Content-Type: application/json" \
   -d '{"context_id":"ctx-1","task_id":"task-1","user_message":"потерял карту","is_initial":true}'
 ```
+
+---
+
+# ТЕСТИРВОАНИЕ
+
+Тесты генерируем ТОЛЬКО ручным запуском субагента `test-generator` после проверки кода и внесения всех необходимых правок.
