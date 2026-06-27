@@ -1,0 +1,22 @@
+---
+mode: agent
+apply: apply
+---
+
+Для ВСЕХ внешних интеграций используй архитектурный паттерн Ports & Adapters (Hexagonal Architecture).
+
+Обязательно:
+
+* Service → Port
+* Port → Routing Adapter (опционально, только при необходимости динамической маршрутизации по явному указанию разработчика)
+* Routing Adapter → Concrete Adapter
+
+Запрещено:
+
+* Service → Adapter
+* Adapter → Adapter
+* Business Logic внутри Adapter
+* Routing Logic вне Routing Adapter
+
+Детали реализации определены в:
+* [ARC-003-port-adapter-flow.md](/docs/architecture/ARC-003-port-adapter-flow.md)

@@ -26,8 +26,8 @@ htmlcov/
 .ruff_cache/
 
 # IDE
-.vscode/
-.gigacode/
+#.vscode/
+#.gigacode/
 .idea/
 
 # OS
