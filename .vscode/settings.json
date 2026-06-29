@@ -1,0 +1,47 @@
+{
+    // ===== Настройки Python =====
+  "python.languageServer": "Pylance",               // Pylance как язык сервера для Python
+  "python.analysis.autoImportCompletions": true,
+
+  // ===== Настройки редактора =====
+  "editor.defaultFormatter": "charliermarsh.ruff",  // Ruff как форматтер по умолчанию
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.ruff": "explicit",
+    "source.organizeImports.ruff": "explicit",
+    "source.sortImports.ruff": "explicit"
+  },
+  "editor.renderWhitespace": "all",
+  "editor.renderLineHighlight": "all",
+  "editor.stickyScroll.enabled": true,
+  "editor.gotoLocation.multipleDefinitions": "peek",
+  
+  // ===== Настройки файлов =====
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/.pytest_cache": true,
+    "**/.mypy_cache": true,
+    "**/.ruff_cache": true
+  },
+  
+  // ===== Настройки поиска =====
+  "search.exclude": {
+    "**/__pycache__": true,
+    "**/.pytest_cache": true,
+    "**/.mypy_cache": true,
+    "**/.ruff_cache": true,
+    "**/.venv": true,
+    "**/venv": true,
+    "**/*.pyc": true
+  },
+  
+  // ===== Настройки интерфейса =====
+  "explorer.compactFolders": true,
+  "workbench.colorCustomizations": {
+    "editor.lineHighlightBackground": "#37373D",
+    "list.inactiveSelectionBackground": "#37373D",
+    "editor.selectionHighlightBackground": "#dda9a040"
+  }
+}
